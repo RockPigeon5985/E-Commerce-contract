@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: E-Commerce API
+  version: 1.0.0
+  description: API for the E-Commerce website
+
+paths:
+  /users:
+    get:
+      summary: Get a list of users
+      responses:
+        '200':
+          description: List of users
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User created successfully
+
+  /users/{user_id}:
+    get:
+      summary: Get user by ID
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User details
+
+  /products:
+    get:
+      summary: Get a list of products
+      responses:
+        '200':
+          description: List of products
+
+  /products/{product_id}:
+    get:
+      summary: Get product by ID
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Product details
+
+  /categories:
+    get:
+      summary: Get a list of categories
+      responses:
+        '200':
+          description: List of categories
+
+  /orders:
+    get:
+      summary: Get a list of orders
+      responses:
+        '200':
+          description: List of orders
+    post:
+      summary: Place a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Order placed successfully
+
+components:
+  schemas:
+    UserInput:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    Product:
+      type: object
+      properties:
+        product_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        quantity_in_stock:
+          type: integer
+        category_id:
+          type: integer
+
+    Category:
+      type: object
+      properties:
+        category_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        parent_category_id:
+          type: integer
+
+    Order:
+      type: object
+      properties:
+        order_id:
+          type: integer
+        user_id:
+          type: integer
+        order_date:
+          type: string
+          format: date-time
+        total_amount:
+          type: number
+    OrderInput:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+              quantity:
+                type: integer
+
+# Add more schemas for Product, Category, Order, Review, Wishlist, Cart, etc.
